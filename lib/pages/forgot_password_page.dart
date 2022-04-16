@@ -28,7 +28,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             children: [
               Container(
                 height: _headerHeight,
-                child: HeaderWidget(_headerHeight, true, Icons.password_rounded),
+                child: HeaderWidget(height:_headerHeight, showIcon:true, icon:Icons.password_rounded),
               ),
               SafeArea(
                 child: Container(

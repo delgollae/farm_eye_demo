@@ -30,7 +30,7 @@ class _ForgotPasswordVerificationPageState extends State<ForgotPasswordVerificat
               Container(
                 height: _headerHeight,
                 child: HeaderWidget(
-                    _headerHeight, true, Icons.privacy_tip_outlined),
+                    height:_headerHeight, showIcon: true, icon:Icons.privacy_tip_outlined),
               ),
               SafeArea(
                 child: Container(

@@ -1,4 +1,5 @@
 
+import 'package:farm_eye_app/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class _LoginPageState extends State<LoginPage>{
           children: [
             Container(
               height: _headerHeight,
-              child: HeaderWidget(_headerHeight, true, Icons.login_rounded), //let's create a common header widget
+              child: HeaderWidget(height:_headerHeight, showIcon:true, icon:Icons.login_rounded), //let's create a common header widget
             ),
             SafeArea(
               child: Container( 
@@ -38,15 +39,15 @@ class _LoginPageState extends State<LoginPage>{
                   margin: EdgeInsets.fromLTRB(20, 10, 20, 10),// This will be the login form
                 child: Column(
                   children: [
-                    Text(
+                    const Text(
                       'Hello',
                       style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
                     ),
-                    Text(
+                    const Text(
                       'Signin into your account',
                       style: TextStyle(color: Colors.grey),
                     ),
-                    SizedBox(height: 30.0),
+                    const SizedBox(height: 30.0),
                     Form(
                       key: _formKey,
                         child: Column(
@@ -57,7 +58,7 @@ class _LoginPageState extends State<LoginPage>{
                               ),
                               decoration: ThemeHelper().inputBoxDecorationShaddow(),
                             ),
-                            SizedBox(height: 30.0),
+                            const SizedBox(height: 30.0),
                             Container(
                               child: TextField(
                                 obscureText: true,
@@ -65,15 +66,15 @@ class _LoginPageState extends State<LoginPage>{
                               ),
                               decoration: ThemeHelper().inputBoxDecorationShaddow(),
                             ),
-                            SizedBox(height: 15.0),
+                            const SizedBox(height: 15.0),
                             Container(
-                              margin: EdgeInsets.fromLTRB(10,0,10,20),
+                              margin: const EdgeInsets.fromLTRB(10,0,10,20),
                               alignment: Alignment.topRight,
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.push( context, MaterialPageRoute( builder: (context) => ForgotPasswordPage()), );
                                 },
-                                child: Text( "Forgot your password?", style: TextStyle( color: Colors.grey, ),
+                                child: const Text( "Forgot your password?", style: TextStyle( color: Colors.grey, ),
                                 ),
                               ),
                             ),
@@ -82,12 +83,13 @@ class _LoginPageState extends State<LoginPage>{
                               child: ElevatedButton(
                                 style: ThemeHelper().buttonStyle(),
                                 child: Padding(
-                                  padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
+                                  padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
                                   child: Text('Sign In'.toUpperCase(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
                                 ),
                                 onPressed: (){
                                   //After successful login we will redirect to profile page. Let's create profile page now
-                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+                                  Navigator.pushNamed(context, ScreenRoutes.toHomePage);
+                                  // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProfilePage()));
                                 },
                               ),
                             ),
