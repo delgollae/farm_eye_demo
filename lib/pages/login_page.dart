@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage>{
           children: [
             Container(
               height: _headerHeight,
-              child: HeaderWidget(height:_headerHeight, showIcon:true, icon:Icons.login_rounded), //let's create a common header widget
+              child: HeaderWidget(height:_headerHeight, showIcon:true, icon:Icons.login_sharp), //let's create a common header widget
             ),
             SafeArea(
               child: Container( 
@@ -40,8 +40,8 @@ class _LoginPageState extends State<LoginPage>{
                 child: Column(
                   children: [
                     const Text(
-                      'Hello',
-                      style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
+                      'Welcome To FarmEye ',
+                      style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
                     ),
                     const Text(
                       'Signin into your account',

@@ -20,8 +20,8 @@ void main() {
 }
 
 class LoginUiApp extends StatelessWidget {
-  Color _primaryColor = HexColor('#DC54FE');
-  Color _accentColor = HexColor('#8A02AE');
+  // Color _primaryColor = HexColor('#2986CC');
+  // Color _accentColor = HexColor('#8A02AE');
 
   // Design color
   // Color _primaryColor= HexColor('#FFC867');
@@ -32,8 +32,8 @@ class LoginUiApp extends StatelessWidget {
   // Color _accentColor= HexColor('#5E18C8');
 
   // Our Logo Blue Color
-  //Color _primaryColor= HexColor('#651BD2');
-  //Color _accentColor= HexColor('#320181');
+  Color _primaryColor= HexColor('#651BD2');
+  Color _accentColor= HexColor('#320181');
 
   // This widget is the root of your application.
   @override
@@ -41,7 +41,7 @@ class LoginUiApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Login UI',
       onGenerateRoute: router.Router.generateRoute,
-      initialRoute: router.ScreenRoutes.toHomePage,
+      initialRoute: router.ScreenRoutes.toSplashPage,
       theme: ThemeData(
           primaryColor: _primaryColor,
           scaffoldBackgroundColor: Colors.grey.shade100,

@@ -5,6 +5,8 @@ import 'package:farm_eye_app/pages/home/home_widgets/service_grid_item.dart';
 import 'package:farm_eye_app/pages/widgets/app_page_container.dart';
 import 'package:farm_eye_app/styles/app_color.dart';
 import 'package:flutter/material.dart';
+import 'package:farm_eye_app/models/promo_model.dart';
+import 'package:farm_eye_app/pages/widgets/widgets.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -68,18 +70,32 @@ class _HomePageState extends State<HomePage> {
                   height: 20,
                 ),
                 Text(
-                  'Mr. Donald Trump',
+                  'Mr. Andy Mckelvey',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
                   height: 20,
                 ),
                 Text(
-                  'Former President',
+                  'DAFM Farm',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: 125.0,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: Promo.promos.length,
+                      itemBuilder: (context, index) {
+                        return PromoBox(promo: Promo.promos[index]);
+                      },
+                    ),
+                  ),
                 ),
                 Column(
                   children: [
