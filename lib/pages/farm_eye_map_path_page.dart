@@ -7,16 +7,30 @@ import 'package:location/location.dart';
 import 'package:simple_speed_dial/simple_speed_dial.dart';
 import 'profile_page.dart';
 import 'sample_collect_page.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
-class FarmEyeMapPage extends StatefulWidget {
-  const FarmEyeMapPage({Key? key}) : super(key: key);
+
+class FarmEyeMapPathPage extends StatefulWidget {
+  const FarmEyeMapPathPage({Key? key}) : super(key: key);
 
   @override
-  _FarmEyeMapPageState createState() => _FarmEyeMapPageState();
+  _FarmEyeMapPathPageState createState() => _FarmEyeMapPathPageState();
 }
 
-class _FarmEyeMapPageState extends State<FarmEyeMapPage> {
+class _FarmEyeMapPathPageState extends State<FarmEyeMapPathPage> {
   // final Completer<GoogleMapController> _controller = Completer();
+
+  GoogleMapController? mapController; //contrller for Google map
+  PolylinePoints polylinePoints = PolylinePoints();
+
+  String googleAPiKey = "AIzaSyBFKsCFDsWD3eyal8cDM6SE1E63GbaFW9c";
+
+  Set<Marker> markers = Set(); //markers for google map
+  Map<PolylineId, Polyline> polylines = {}; //polylines to show direction
+
+  LatLng startLocation = LatLng(53.144751, -7.850996);
+  LatLng endLocation = LatLng(53.151525, -7.568105);
+
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
@@ -35,6 +49,29 @@ class _FarmEyeMapPageState extends State<FarmEyeMapPage> {
 
   @override
   void initState() {
+    markers.add(Marker( //add start location marker
+      markerId: MarkerId(startLocation.toString()),
+      position: startLocation, //position of marker
+      infoWindow: InfoWindow( //popup info
+        title: 'Starting Point ',
+        snippet: 'Start Marker',
+      ),
+      icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+    ));
+
+    markers.add(Marker( //add distination location marker
+      markerId: MarkerId(endLocation.toString()),
+      position: endLocation, //position of marker
+      infoWindow: InfoWindow( //popup info
+        title: 'Destination Point ',
+        snippet: 'Destination Marker',
+      ),
+      icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+    ));
+
+    getDirections(); //fetch direction polylines from Google API
+
+
     super.initState();
     setState(() {
       getLocation();
@@ -45,7 +82,7 @@ class _FarmEyeMapPageState extends State<FarmEyeMapPage> {
   Widget build(BuildContext context) {
     return AppPageContainer(
       showAppBar: false,
-      body: Stack(
+      /*body: Stack(
         children: [
           Positioned(
             top: 50,
@@ -63,6 +100,21 @@ class _FarmEyeMapPageState extends State<FarmEyeMapPage> {
             markers: _markers,
           ),
         ],
+      ),*/
+      body: GoogleMap( //Map widget from google_maps_flutter package
+        zoomGesturesEnabled: true, //enable Zoom in, out on map
+        initialCameraPosition: CameraPosition( //innital position in map
+          target: startLocation, //initial position
+          zoom: 16.0, //initial zoom level
+        ),
+        markers: markers, //markers to show on map
+        polylines: Set<Polyline>.of(polylines.values), //polylines
+        mapType: MapType.normal, //map type
+        onMapCreated: (controller) { //method called when map is created
+          setState(() {
+            mapController = controller;
+          });
+        },
       ),
       floatingActionButton: _popupMenu(),
     );
@@ -95,12 +147,7 @@ class _FarmEyeMapPageState extends State<FarmEyeMapPage> {
           foregroundColor: Colors.white,
           backgroundColor: Colors.red,
           onPressed: () {
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                    builder: (context) => ProfilePage()
-                ),
-                    (Route<dynamic> route) => false
-            );
+
           },
         ),
         SpeedDialChild(
@@ -110,7 +157,7 @@ class _FarmEyeMapPageState extends State<FarmEyeMapPage> {
           onPressed: () {
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                    builder: (context) => SampleCollectPage()
+                    builder: (context) => ProfilePage()
                 ),
                     (Route<dynamic> route) => false
             );
@@ -162,4 +209,39 @@ class _FarmEyeMapPageState extends State<FarmEyeMapPage> {
             borderRadius: BorderRadius.all(Radius.circular(11.0))),
         icon: Icon(Icons.menu),
       );
+
+
+  getDirections() async {
+    List<LatLng> polylineCoordinates = [];
+
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      googleAPiKey,
+      PointLatLng(startLocation.latitude, startLocation.longitude),
+      PointLatLng(endLocation.latitude, endLocation.longitude),
+      travelMode: TravelMode.driving,
+    );
+
+    if (result.points.isNotEmpty) {
+      result.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    } else {
+      print(result.errorMessage);
+    }
+    addPolyLine(polylineCoordinates);
+  }
+
+  addPolyLine(List<LatLng> polylineCoordinates) {
+    PolylineId id = PolylineId("poly");
+    Polyline polyline = Polyline(
+      polylineId: id,
+      color: Colors.deepPurpleAccent,
+      points: polylineCoordinates,
+      width: 8,
+    );
+    polylines[id] = polyline;
+    setState(() {});
+  }
+
+
 }

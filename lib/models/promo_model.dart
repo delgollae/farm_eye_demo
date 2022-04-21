@@ -28,14 +28,14 @@ class Promo extends Equatable {
       description:
           '20 Farms, 5 DAFM',
       imageUrl:
-          'https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+          'https://github.com/delgollae/farm_eye_demo/blob/develop/assets/images/banner_bg_01.png',
     ),
     Promo(
       id: 2,
       title: 'Travel For Day.',
       description: '105 KM',
       imageUrl:
-          'https://images.unsplash.com/photo-1428515613728-6b4607e44363?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+          'https://github.com/delgollae/farm_eye_demo/blob/develop/assets/images/banner_bg_02.png',
     ),
     Promo(
       id: 3,
@@ -43,7 +43,7 @@ class Promo extends Equatable {
       description:
       '2022-04-19 07:00 AM',
       imageUrl:
-      'https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+      'https://github.com/delgollae/farm_eye_demo/blob/develop/assets/images/banner_bg_01.png',
     ),
     Promo(
       id: 4,
@@ -51,7 +51,7 @@ class Promo extends Equatable {
       description:
       '25 Samples',
       imageUrl:
-      'https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+      'https://github.com/delgollae/farm_eye_demo/blob/develop/assets/images/banner_bg_02.png',
     )
   ];
 }

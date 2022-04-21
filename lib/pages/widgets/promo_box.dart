@@ -36,20 +36,20 @@ class PromoBox extends StatelessWidget {
               borderRadius: BorderRadius.circular(5.0),
             ),
             child: Padding(
-              padding: const EdgeInsets.only(top: 10.0, left: 15, right: 125),
+              padding: const EdgeInsets.only(top: 10.0, left: 15, right: 25),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     promo.title,
-                    style: Theme.of(context).textTheme.headline4!.copyWith(
+                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
                           color: Colors.white,
                         ),
                   ),
-                  SizedBox(height: 15),
+                  SizedBox(height: 12),
                   Text(
                     promo.description,
-                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                    style: Theme.of(context).textTheme.subtitle2!.copyWith(
                           color: Colors.white,
                         ),
                   ),
@@ -69,8 +69,8 @@ class PromoCustomClipper extends CustomClipper<Path> {
     var path = new Path();
     path.lineTo(0, 0);
     path.lineTo(0, size.height);
-    path.lineTo(125, size.height);
-    path.lineTo(150, 0);
+    path.lineTo(225, size.height);
+    path.lineTo(275, 0);
 
     return path;
   }

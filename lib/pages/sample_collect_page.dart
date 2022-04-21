@@ -11,15 +11,15 @@ import 'forgot_password_verification_page.dart';
 import 'registration_page.dart';
 import 'package:farm_eye_app/pages/home/home_page.dart';
 
-class ProfilePage extends StatefulWidget{
+class SampleCollectPage extends StatefulWidget{
 
   @override
   State<StatefulWidget> createState() {
-     return _ProfilePageState();
+     return _SampleCollectPageState();
   }
 }
 
-class _ProfilePageState extends State<ProfilePage>{
+class _SampleCollectPageState extends State<SampleCollectPage>{
 
   double  _drawerIconSize = 24;
   double _drawerFontSize = 17;
@@ -28,7 +28,7 @@ class _ProfilePageState extends State<ProfilePage>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Profile Page",
+        title: Text("Sample Details",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         elevation: 0.5,
@@ -187,7 +187,7 @@ class _ProfilePageState extends State<ProfilePage>{
                           padding: const EdgeInsets.only(left: 8.0, bottom: 4.0),
                           alignment: Alignment.topLeft,
                           child: Text(
-                            "User Information",
+                            "Sample Collection",
                             style: TextStyle(
                               color: Colors.black87,
                               fontWeight: FontWeight.w500,
@@ -210,25 +210,34 @@ class _ProfilePageState extends State<ProfilePage>{
                                         ListTile(
                                           contentPadding: EdgeInsets.symmetric(
                                               horizontal: 12, vertical: 4),
-                                          leading: Icon(Icons.my_location),
-                                          title: Text("Location"),
-                                          subtitle: Text("UK"),
+                                          leading: Icon(Icons.camera_alt),
+                                          title: Text("Scan Sample Barcode"),
+                                          subtitle: Text("Available Samples : 25"),
                                         ),
                                         ListTile(
-                                          leading: Icon(Icons.email),
-                                          title: Text("Email"),
-                                          subtitle: Text("andymckelvey@gmail.com"),
+                                          leading: Icon(Icons.note_add_outlined),
+                                          title: Text("Enter Label Manually"),
+                                          subtitle: Text("Use 20******** Format"),
                                         ),
                                         ListTile(
-                                          leading: Icon(Icons.phone),
-                                          title: Text("Phone"),
-                                          subtitle: Text("444-99876537-56"),
+                                          leading: Icon(Icons.list_alt_sharp),
+                                          title: Text("Select Soil Type"),
+                                          subtitle: Text("Please select from list"),
                                         ),
                                         ListTile(
-                                          leading: Icon(Icons.person),
-                                          title: Text("About Me"),
-                                          subtitle: Text(
-                                              "This is a about farm eye functionalities."),
+                                          leading: Icon(Icons.account_tree_rounded),
+                                          title: Text("Select Crop Type"),
+                                          subtitle: Text("Please select from list"),
+                                        ),
+                                        ListTile(
+                                          leading: Icon(Icons.camera_alt),
+                                          title: Text("Take Photo"),
+                                          subtitle: Text("Capture sample photoes"),
+                                        ),
+                                        ListTile(
+                                          leading: Icon(Icons.event_note),
+                                          title: Text("Add Notes"),
+                                          subtitle: Text("Enter sample notes"),
                                         ),
                                       ],
                                     ),

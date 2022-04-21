@@ -107,15 +107,16 @@ class ServiceGridItem extends StatelessWidget {
   void _onServiceTap(BuildContext context, ServiceGridItem thisItem) {
     switch (thisItem.id) {
       case "1":
+        Navigator.pushNamed(context, ScreenRoutes.toFarmEyeOsmMapPage);
         break;
       case "2":
-        Navigator.pushNamed(context, ScreenRoutes.toFarmEyeMapPage);
+        Navigator.pushNamed(context, ScreenRoutes.toFarmEyeOsmMapLocationsPage);
         break;
       case "3":
-        // Navigator.pushNamed(context, ScreenRoutes.toCardPaymentScreen);
+        Navigator.pushNamed(context, ScreenRoutes.toFarmEyeMapPage);
         break;
       case "4":
-        // Navigator.pushNamed(context, ScreenRoutes.toBankTransferScreen);
+        Navigator.pushNamed(context, ScreenRoutes.toFarmEyeMapPathPage);
         break;
     }
     // pushScreen(
