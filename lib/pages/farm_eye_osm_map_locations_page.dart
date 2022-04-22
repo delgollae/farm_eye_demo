@@ -4,6 +4,15 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
+
+import 'package:farm_eye_app/pages/widgets/app_page_container.dart';
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
+import 'package:simple_speed_dial/simple_speed_dial.dart';
+import 'profile_page.dart';
+import 'sample_collect_page.dart';
+
 class FarmEyeOsmMapLocationsPage extends StatefulWidget {
   const FarmEyeOsmMapLocationsPage({Key? key}) : super(key: key);
 
@@ -240,7 +249,61 @@ class _FarmEyeOsmMapLocationsPageState extends State<FarmEyeOsmMapLocationsPage>
                 )
             );
           }
-        )
+        ),
+        floatingActionButton: _popupMenu()
     );
   }
+
+
+  Widget _popupMenu(){
+    return SpeedDial(
+      child: const Icon(Icons.menu),
+      speedDialChildren: <SpeedDialChild>[
+        SpeedDialChild(
+          child: const Icon(Icons.play_circle_fill_outlined),
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.red,
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (context) => ProfilePage()
+                ),
+                    (Route<dynamic> route) => false
+            );
+          },
+        ),
+        SpeedDialChild(
+          child: const Icon(Icons.stop_circle),
+          foregroundColor: Colors.black,
+          backgroundColor: Colors.yellow,
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (context) => SampleCollectPage()
+                ),
+                    (Route<dynamic> route) => false
+            );
+          },
+        ),
+        SpeedDialChild(
+          child: const Icon(Icons.list_alt_rounded),
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.green,
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (context) => SampleCollectPage()
+                ),
+                    (Route<dynamic> route) => false
+            );
+          },
+        ),
+      ],
+      closedForegroundColor: Colors.black,
+      openForegroundColor: Colors.white,
+      closedBackgroundColor: Colors.white,
+      openBackgroundColor: Colors.black,
+    );
+  }
+
 }
