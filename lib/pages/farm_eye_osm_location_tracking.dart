@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:farm_eye_app/models/pin_information.dart';
+import 'package:farm_eye_app/pages/location_tracking/map_widgets/map_location_detail_widget.dart';
 import 'package:farm_eye_app/pages/widgets/app_page_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -7,23 +8,23 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
-
 const double CAMERA_ZOOM = 16;
 const double CAMERA_TILT = 80;
 const double CAMERA_BEARING = 30;
 
 const LatLng SOURCE_LOCATION = LatLng(7.222372064497692, 80.19088610049356);
 const LatLng DEST_LOCATION = LatLng(7.225392645477078, 80.19738065353602);
+
 class FarmEyeOsmLocationTracking extends StatefulWidget {
   const FarmEyeOsmLocationTracking({Key? key}) : super(key: key);
 
   @override
-  _FarmEyeOsmLocationTrackingState createState() => _FarmEyeOsmLocationTrackingState();
+  _FarmEyeOsmLocationTrackingState createState() =>
+      _FarmEyeOsmLocationTrackingState();
 }
 
-
-class _FarmEyeOsmLocationTrackingState extends State<FarmEyeOsmLocationTracking> {
-
+class _FarmEyeOsmLocationTrackingState
+    extends State<FarmEyeOsmLocationTracking> {
   Completer<GoogleMapController> _controller = Completer();
   Set<Marker> _markers = Set<Marker>();
   Set<Polyline> _polylines = Set<Polyline>();
@@ -45,17 +46,21 @@ class _FarmEyeOsmLocationTrackingState extends State<FarmEyeOsmLocationTracking>
       labelColor: Colors.grey);
   PinInformation? sourcePinInfo;
   PinInformation? destinationPinInfo;
+
   @override
   void initState() {
     super.initState();
     location = new Location();
     setInitialLocation();
     polylinePoints = PolylinePoints();
-    location!.onLocationChanged.listen((LocationData cLoc) {
-      currentLocation = cLoc;
-      updatePinOnMap();
-      setPolylines();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      location!.onLocationChanged.listen((LocationData cLoc) {
+        currentLocation = cLoc;
+        updatePinOnMap();
+        setPolylines();
+      });
     });
+
     setSourceAndDestinationIcons();
   }
 
@@ -65,14 +70,14 @@ class _FarmEyeOsmLocationTrackingState extends State<FarmEyeOsmLocationTracking>
   }
 
   void setSourceAndDestinationIcons() async {
-    BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(devicePixelRatio: 2.0), 'assets/images/driving_pin.png')
+    BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.0),
+            'assets/images/driving_pin.png')
         .then((onValue) {
       sourceIcon = onValue;
     });
 
     BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.0),
-        'assets/images/square_pin.png')
+            'assets/images/square_pin.png')
         .then((onValue) {
       destinationIcon = onValue;
     });
@@ -85,6 +90,7 @@ class _FarmEyeOsmLocationTrackingState extends State<FarmEyeOsmLocationTracking>
       "longitude": DEST_LOCATION.longitude
     });
   }
+
   @override
   Widget build(BuildContext context) {
     CameraPosition initialCameraPosition = const CameraPosition(
@@ -94,13 +100,14 @@ class _FarmEyeOsmLocationTrackingState extends State<FarmEyeOsmLocationTracking>
         target: SOURCE_LOCATION);
     if (currentLocation != null) {
       initialCameraPosition = CameraPosition(
-          target: LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
+          target:
+              LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
           zoom: CAMERA_ZOOM,
           tilt: CAMERA_TILT,
           bearing: CAMERA_BEARING);
     }
     return AppPageContainer(
-        showAppBar: false,
+      showAppBar: false,
       body: Stack(
         children: [
           GoogleMap(
@@ -111,14 +118,27 @@ class _FarmEyeOsmLocationTrackingState extends State<FarmEyeOsmLocationTracking>
               polylines: _polylines,
               mapType: MapType.normal,
               initialCameraPosition: initialCameraPosition,
-              onTap: (LatLng loc) {
-              },
+              onTap: (LatLng loc) {},
               onMapCreated: (GoogleMapController controller) {
                 // controller.setMapStyle(Utils.mapStyles);
                 _controller.complete(controller);
                 print("map opened");
                 showPinsOnMap();
               }),
+          Positioned(
+            top: 50,
+            right: 10,
+            child: currentLocation != null
+                ? MapLocationDetailWidget(
+                    latitude: currentLocation!.latitude.toString(),
+                    longitude: currentLocation!.longitude.toString())
+                : Container(),
+            // child: Container(
+            //   height: MediaQuery.of(context).size.width * 0.5,
+            //   width: MediaQuery.of(context).size.width * 0.5,
+            //   color: Colors.pink,
+            // )
+          ),
           // MapPinPillComponent(
           //     pinPillPosition: pinPillPosition,
           //     currentlySelectedPin: currentlySelectedPin)
@@ -129,11 +149,11 @@ class _FarmEyeOsmLocationTrackingState extends State<FarmEyeOsmLocationTracking>
 
   void showPinsOnMap() {
     if (currentLocation != null && destinationLocation != null) {
-      var pinPosition =
-      LatLng(currentLocation!.latitude??0, currentLocation!.longitude??0);
+      var pinPosition = LatLng(
+          currentLocation!.latitude ?? 0, currentLocation!.longitude ?? 0);
       // print("pinPosition >> $pinPosition");
-      var destPosition =
-      LatLng(destinationLocation!.latitude??0, destinationLocation!.longitude??0);
+      var destPosition = LatLng(destinationLocation!.latitude ?? 0,
+          destinationLocation!.longitude ?? 0);
 
       sourcePinInfo = PinInformation(
           locationName: "Start Location",
@@ -158,7 +178,7 @@ class _FarmEyeOsmLocationTrackingState extends State<FarmEyeOsmLocationTracking>
               pinPillPosition = 0;
             });
           },
-          icon:  BitmapDescriptor.defaultMarker));
+          icon: BitmapDescriptor.defaultMarker));
       // destination pin
       _markers.add(Marker(
           markerId: MarkerId('destPin'),
@@ -169,19 +189,19 @@ class _FarmEyeOsmLocationTrackingState extends State<FarmEyeOsmLocationTracking>
               pinPillPosition = 0;
             });
           },
-          icon:  BitmapDescriptor.defaultMarker));
+          icon: BitmapDescriptor.defaultMarker));
       setPolylines();
     }
   }
 
-
   void setPolylines() async {
-   PolylineResult result = await polylinePoints!.getRouteBetweenCoordinates(
-        googleAPIKey,
-        PointLatLng(currentLocation!.latitude!,currentLocation!.longitude!),
-       PointLatLng( destinationLocation!.latitude!, destinationLocation!.longitude!),
-       );
-List<PointLatLng>points =result.points;
+    PolylineResult result = await polylinePoints!.getRouteBetweenCoordinates(
+      googleAPIKey,
+      PointLatLng(currentLocation!.latitude!, currentLocation!.longitude!),
+      PointLatLng(
+          destinationLocation!.latitude!, destinationLocation!.longitude!),
+    );
+    List<PointLatLng> points = result.points;
     if (points.isNotEmpty) {
       points.forEach((PointLatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
@@ -191,7 +211,7 @@ List<PointLatLng>points =result.points;
       final PolylineId polylineId = PolylineId(polylineIdVal);
       _polylines = new Set<Polyline>();
       setState(() {
-        _polylines.add( Polyline(
+        _polylines.add(Polyline(
             width: 6,
             // set the width of the polylines
             polylineId: polylineId,
@@ -206,10 +226,10 @@ List<PointLatLng>points =result.points;
   void updatePinOnMap() async {
     if (currentLocation != null && destinationLocation != null) {
       var pinPosition =
-      LatLng(currentLocation!.latitude!, currentLocation!.longitude!);
+          LatLng(currentLocation!.latitude!, currentLocation!.longitude!);
       // print("pinPosition >> $pinPosition");
-      var destPosition =
-      LatLng(destinationLocation!.latitude!, destinationLocation!.longitude!);
+      var destPosition = LatLng(
+          destinationLocation!.latitude!, destinationLocation!.longitude!);
 
       sourcePinInfo = PinInformation(
           locationName: "Start Location",
@@ -245,7 +265,7 @@ List<PointLatLng>points =result.points;
               pinPillPosition = 0;
             });
           },
-          icon:  BitmapDescriptor.defaultMarker));
+          icon: BitmapDescriptor.defaultMarker));
 
       CameraPosition cPosition = CameraPosition(
         zoom: CAMERA_ZOOM,
@@ -258,7 +278,7 @@ List<PointLatLng>points =result.points;
       setState(() {
         // print("pinPosition lat " + currentLocation.latitude.toString()+"  long "+ currentLocation.longitude.toString());
         var pinPosition =
-        LatLng(currentLocation!.latitude!, currentLocation!.longitude!);
+            LatLng(currentLocation!.latitude!, currentLocation!.longitude!);
         sourcePinInfo!.location = pinPosition;
         _markers.removeWhere((m) => m.markerId.value == 'sourcePin');
         _markers.add(Marker(
@@ -270,7 +290,7 @@ List<PointLatLng>points =result.points;
               });
             },
             position: pinPosition, // updated position
-            icon:  BitmapDescriptor.defaultMarker));
+            icon: BitmapDescriptor.defaultMarker));
       });
     }
   }

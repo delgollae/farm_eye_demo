@@ -24,7 +24,15 @@ class _FarmEyeOsmMapPathDrawPageState extends State<FarmEyeOsmMapPathDrawPage> {
   late RoadInfo roadInfo;
   late List<dynamic> waysPoint = [];
   late Position startLocation;
-  late Position currentLocation;
+  late Position currentLocation = Position(
+      longitude: 7.225392645477078,
+      latitude: 80.19738065353602,
+      timestamp: DateTime.now(),
+      accuracy: 1,
+      altitude: 1,
+      heading: 1,
+      speed: 1,
+      speedAccuracy: 1);
   late List<GeoPoint> intersectPoint;
   late GlobalKey<ScaffoldState> scaffoldKey;
   ValueNotifier<bool> zoomNotifierActivation = ValueNotifier(false);
@@ -60,6 +68,7 @@ class _FarmEyeOsmMapPathDrawPageState extends State<FarmEyeOsmMapPathDrawPage> {
   @override
   void initState() {
     super.initState();
+    locateUser();
     mapController = MapController(
         initMapWithUserPosition: false,
         initPosition: GeoPoint(
@@ -168,6 +177,8 @@ class _FarmEyeOsmMapPathDrawPageState extends State<FarmEyeOsmMapPathDrawPage> {
   }
 
   Future<Position> locateUser() async {
+    currentLocation = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
     return Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
   }
@@ -279,9 +290,9 @@ class _FarmEyeOsmMapPathDrawPageState extends State<FarmEyeOsmMapPathDrawPage> {
             Positioned(
               top: 30,
               right: 10,
-              child: MapLocationDetailWidet(
-                  latitude: startLocation.latitude.toString(),
-                  longitude: startLocation.latitude.toString()),
+              child: MapLocationDetailWidget(
+                  latitude: currentLocation.latitude.toString(),
+                  longitude: currentLocation.latitude.toString()),
               // child: Container(
               //   height: MediaQuery.of(context).size.width * 0.5,
               //   width: MediaQuery.of(context).size.width * 0.5,
