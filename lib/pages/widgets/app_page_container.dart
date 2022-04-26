@@ -11,7 +11,7 @@ class AppPageContainer extends StatelessWidget {
   final bool showAppBar;
   final double? appBarHeight;
   final bool? showHeaderIcon;
-  final Widget? appBarWidget;
+  final PreferredSizeWidget? appBarWidget;
   final IconData? appBarIcon;
   final bool enableDrawer;
 
@@ -37,7 +37,7 @@ class AppPageContainer extends StatelessWidget {
     return SafeArea(
         child: Scaffold(
       appBar: showAppBar
-          ? HeaderWidget(
+          ? appBarWidget??HeaderWidget(
               height: appBarHeight,
               showIcon: showHeaderIcon,
               icon: appBarIcon,

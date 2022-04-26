@@ -1,5 +1,6 @@
 
 import 'package:farm_eye_app/pages/farm_eye_map_page.dart';
+import 'package:farm_eye_app/pages/farm_eye_osm_location_tracking.dart';
 import 'package:farm_eye_app/pages/home/home_page.dart';
 import 'package:farm_eye_app/pages/splash_screen.dart';
 import 'package:farm_eye_app/pages/sample_collect_page.dart';
@@ -19,6 +20,7 @@ class ScreenRoutes {
   static const String toFarmEyeOsmMapPage="toFarmEyeOsmMapPage";
   static const String toFarmEyeOsmMapLocationsPage="toFarmEyeOsmMapLocationsPage";
   static const String toFarmEyeOsmMapPathDrawPage="toFarmEyeOsmMapPathDrawPage";
+  static const String toFarmEyeOsmLocationTracking="toFarmEyeOsmLocationTracking";
 }
 
 class Router {
@@ -40,6 +42,8 @@ class Router {
         return MaterialPageRoute(builder: (_)=>FarmEyeOsmMapLocationsPage());
       case ScreenRoutes.toFarmEyeOsmMapPathDrawPage:
         return MaterialPageRoute(builder: (_)=>FarmEyeOsmMapPathDrawPage());
+      case ScreenRoutes.toFarmEyeOsmLocationTracking:
+        return MaterialPageRoute(builder: (_)=>FarmEyeOsmLocationTracking());
       default:
         return MaterialPageRoute(builder: (_)=>const HomePage());
     }

@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:farm_eye_app/pages/location_tracking/map_widgets/map_location_detail_widget.dart';
+import 'package:farm_eye_app/pages/widgets/app_page_container.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
@@ -13,9 +15,9 @@ class FarmEyeOsmMapPathDrawPage extends StatefulWidget {
   const FarmEyeOsmMapPathDrawPage({Key? key}) : super(key: key);
 
   @override
-  _FarmEyeOsmMapPathDrawPageState createState() => _FarmEyeOsmMapPathDrawPageState();
+  _FarmEyeOsmMapPathDrawPageState createState() =>
+      _FarmEyeOsmMapPathDrawPageState();
 }
-
 
 class _FarmEyeOsmMapPathDrawPageState extends State<FarmEyeOsmMapPathDrawPage> {
   late MapController mapController;
@@ -30,12 +32,12 @@ class _FarmEyeOsmMapPathDrawPageState extends State<FarmEyeOsmMapPathDrawPage> {
   ValueNotifier<bool> advPickerNotifierActivation = ValueNotifier(false);
   ValueNotifier<bool> trackingNotifier = ValueNotifier(false);
 
-
   Stopwatch watch = Stopwatch();
   late Timer timer;
   bool startStop = true;
 
   String elapsedTime = '';
+
 //msg:"startstop Inside=$startLocation ",
   updateTime(Timer timer) {
     if (watch.isRunning) {
@@ -63,8 +65,7 @@ class _FarmEyeOsmMapPathDrawPageState extends State<FarmEyeOsmMapPathDrawPage> {
         initPosition: GeoPoint(
           latitude: 53.084344,
           longitude: -7.917130,
-        )
-    );
+        ));
 
     scaffoldKey = GlobalKey<ScaffoldState>();
     mapController.listenerMapLongTapping.addListener(() {
@@ -80,15 +81,15 @@ class _FarmEyeOsmMapPathDrawPageState extends State<FarmEyeOsmMapPathDrawPage> {
 
     Future.delayed(Duration(minutes: 5), () async {
       //await mapController.removeLimitAreaMap();
-      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
 
       mapController = MapController(
           initMapWithUserPosition: true,
           initPosition: GeoPoint(
             latitude: position.latitude,
             longitude: position.longitude,
-          )
-      );
+          ));
     });
     Future.delayed(Duration(minutes: 5), () async {
       //await mapController.removeLimitAreaMap();
@@ -98,7 +99,8 @@ class _FarmEyeOsmMapPathDrawPageState extends State<FarmEyeOsmMapPathDrawPage> {
       await mapController.zoomIn();
     });
     Future.delayed(Duration(seconds: 10), () async {
-      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
 
       await mapController.changeLocation(
         GeoPoint(
@@ -120,8 +122,8 @@ class _FarmEyeOsmMapPathDrawPageState extends State<FarmEyeOsmMapPathDrawPage> {
         ),
       );
       Future.delayed(Duration(seconds: 5), () async {
-
-        Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+        Position position = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high);
 
         await mapController.changeLocation(
           GeoPoint(
@@ -161,15 +163,13 @@ class _FarmEyeOsmMapPathDrawPageState extends State<FarmEyeOsmMapPathDrawPage> {
         //   textConfirmPicker: "pick",
         //   initCurrentUserPosition: true,
         // );
-
-
       });
     });
   }
 
   Future<Position> locateUser() async {
-    return Geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    return Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
   }
 
   getUserLocation() async {
@@ -187,20 +187,26 @@ class _FarmEyeOsmMapPathDrawPageState extends State<FarmEyeOsmMapPathDrawPage> {
     //7.052019, 79.930041
     //7.051550, 79.932917
     RoadInfo roadInfo = await mapController.drawRoad(
-      GeoPoint(latitude: startLocation.latitude, longitude: startLocation.longitude),
-      GeoPoint(latitude: currentLocation.latitude, longitude: currentLocation.longitude),
-      roadType: RoadType.car,
-      roadOption: RoadOption(
-        roadColor: Colors.blue,
-        roadWidth: 10,
-        showMarkerOfPOI: true,
-        zoomInto: true
-      ),
-      intersectPoint : [
-        GeoPoint(latitude: startLocation.latitude, longitude: startLocation.longitude),
-        GeoPoint(latitude: currentLocation.latitude, longitude: currentLocation.longitude),
-      ]
-    );
+        GeoPoint(
+            latitude: startLocation.latitude,
+            longitude: startLocation.longitude),
+        GeoPoint(
+            latitude: currentLocation.latitude,
+            longitude: currentLocation.longitude),
+        roadType: RoadType.car,
+        roadOption: RoadOption(
+            roadColor: Colors.blue,
+            roadWidth: 10,
+            showMarkerOfPOI: true,
+            zoomInto: true),
+        intersectPoint: [
+          GeoPoint(
+              latitude: startLocation.latitude,
+              longitude: startLocation.longitude),
+          GeoPoint(
+              latitude: currentLocation.latitude,
+              longitude: currentLocation.longitude),
+        ]);
   }
 
   @override
@@ -211,66 +217,83 @@ class _FarmEyeOsmMapPathDrawPageState extends State<FarmEyeOsmMapPathDrawPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text("Map Path Tracking")),
-        body: OrientationBuilder(
-          builder: (ctx, orientation) {
-            return Container(
-                child: Stack(
-                    children: [
-                  OSMFlutter(
-                    controller:mapController,
-                    trackMyPosition: false,
-                    initZoom: 12,
-                    minZoomLevel: 8,
-                    maxZoomLevel: 14,
-                    stepZoom: 1.0,
-                    userLocationMarker: UserLocationMaker(
-                      personMarker: MarkerIcon(
-                        icon: Icon(
-                          Icons.location_history_rounded,
-                          color: Colors.red,
-                          size: 48,
-                        ),
-                      ),
-                      directionArrowMarker: MarkerIcon(
-                        icon: Icon(
-                          Icons.double_arrow,
-                          size: 48,
-                        ),
+    return AppPageContainer(
+        appBarWidget: AppBar(title: Text("Map Path Tracking")),
+        showAppBar: true,
+        body: Stack(
+          children: [
+            Container(
+              // height: 1000,
+              child: OrientationBuilder(builder: (ctx, orientation) {
+                return
+                    // Container(
+                    //   child: Stack(
+                    //       children: [
+
+                    OSMFlutter(
+                  controller: mapController,
+                  trackMyPosition: false,
+                  initZoom: 12,
+                  minZoomLevel: 8,
+                  maxZoomLevel: 14,
+                  stepZoom: 1.0,
+                  userLocationMarker: UserLocationMaker(
+                    personMarker: MarkerIcon(
+                      icon: Icon(
+                        Icons.location_history_rounded,
+                        color: Colors.red,
+                        size: 48,
                       ),
                     ),
-                    roadConfiguration: RoadConfiguration(
-                      startIcon: MarkerIcon(
-                        icon: Icon(
-                          Icons.person,
-                          size: 64,
-                          color: Colors.brown,
-                        ),
+                    directionArrowMarker: MarkerIcon(
+                      icon: Icon(
+                        Icons.double_arrow,
+                        size: 48,
                       ),
-                      roadColor: Colors.yellowAccent,
-                    ),
-                    markerOption: MarkerOption(
-                        defaultMarker: MarkerIcon(
-                          icon: Icon(
-                            Icons.person_pin_circle,
-                            color: Colors.blue,
-                            size: 56,
-                          ),
-                        )
                     ),
                   ),
-                      ]
-                )
-            );
-          }
+                  roadConfiguration: RoadConfiguration(
+                    startIcon: MarkerIcon(
+                      icon: Icon(
+                        Icons.person,
+                        size: 64,
+                        color: Colors.brown,
+                      ),
+                    ),
+                    roadColor: Colors.yellowAccent,
+                  ),
+                  markerOption: MarkerOption(
+                      defaultMarker: MarkerIcon(
+                    icon: Icon(
+                      Icons.person_pin_circle,
+                      color: Colors.blue,
+                      size: 56,
+                    ),
+                  )),
+                );
+                //         ]
+                //     )
+                // );
+              }),
+            ),
+            Positioned(
+              top: 30,
+              right: 10,
+              child: MapLocationDetailWidet(
+                  latitude: startLocation.latitude.toString(),
+                  longitude: startLocation.latitude.toString()),
+              // child: Container(
+              //   height: MediaQuery.of(context).size.width * 0.5,
+              //   width: MediaQuery.of(context).size.width * 0.5,
+              //   color: Colors.pink,
+              // )
+            ),
+          ],
         ),
-        floatingActionButton: _popupMenu()
-    );
+        floatingActionButton: _popupMenu());
   }
 
-
-  Widget _popupMenu(){
+  Widget _popupMenu() {
     return SpeedDial(
       child: const Icon(Icons.menu),
       speedDialChildren: <SpeedDialChild>[
@@ -286,8 +309,7 @@ class _FarmEyeOsmMapPathDrawPageState extends State<FarmEyeOsmMapPathDrawPage> {
                 timeInSecForIosWeb: 1,
                 backgroundColor: Colors.red,
                 textColor: Colors.white,
-                fontSize: 16.0
-            );
+                fontSize: 16.0);
             startWatch();
           },
         ),
@@ -303,8 +325,7 @@ class _FarmEyeOsmMapPathDrawPageState extends State<FarmEyeOsmMapPathDrawPage> {
                 timeInSecForIosWeb: 1,
                 backgroundColor: Colors.red,
                 textColor: Colors.white,
-                fontSize: 16.0
-            );
+                fontSize: 16.0);
             stopWatch();
           },
         ),
@@ -320,8 +341,7 @@ class _FarmEyeOsmMapPathDrawPageState extends State<FarmEyeOsmMapPathDrawPage> {
                 timeInSecForIosWeb: 1,
                 backgroundColor: Colors.red,
                 textColor: Colors.white,
-                fontSize: 16.0
-            );
+                fontSize: 16.0);
           },
         ),
       ],
@@ -331,7 +351,6 @@ class _FarmEyeOsmMapPathDrawPageState extends State<FarmEyeOsmMapPathDrawPage> {
       openBackgroundColor: Colors.black,
     );
   }
-
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -370,9 +389,8 @@ class _FarmEyeOsmMapPathDrawPageState extends State<FarmEyeOsmMapPathDrawPage> {
     return await Geolocator.getCurrentPosition();
   }
 
-
   startOrStop() {
-    if(startStop) {
+    if (startStop) {
       startWatch();
     } else {
       stopWatch();
@@ -415,5 +433,4 @@ class _FarmEyeOsmMapPathDrawPageState extends State<FarmEyeOsmMapPathDrawPage> {
 
     return "$hoursStr:$minutesStr:$secondsStr";
   }
-
 }

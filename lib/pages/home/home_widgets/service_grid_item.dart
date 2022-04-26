@@ -116,7 +116,8 @@ class ServiceGridItem extends StatelessWidget {
         Navigator.pushNamed(context, ScreenRoutes.toFarmEyeMapPage);
         break;
       case "4":
-        Navigator.pushNamed(context, ScreenRoutes.toFarmEyeMapPathPage);
+        // Navigator.pushNamed(context, ScreenRoutes.toFarmEyeMapPathPage);
+        Navigator.pushNamed(context, ScreenRoutes.toFarmEyeOsmLocationTracking);
         break;
     }
     // pushScreen(
